@@ -35,7 +35,6 @@ app.use(
 // 👇 Start handling routes here
 // Contrary to the views version, all routes are controled from the routes/index.js
 
-
 const authRoutes = require("./routes/authRoutes.js");
 app.use("/", authRoutes);
 
