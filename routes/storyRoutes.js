@@ -5,7 +5,7 @@
 const express = require ('express')
 const router = express.Router()
 
-let StoryModel = require('..models/Story.model')
+// let StoryModel = require('./models/Story.model.js')
 
 // Go to stories page
 // will handle all GET requests to http:localhost:5005/api/stories

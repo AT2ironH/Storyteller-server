@@ -7,39 +7,40 @@ const bcrypt = require('bcryptjs');
 const userModel = require('../models/User.model');
 
 router.post('/api/signup', (req, res) => {
-    const {username, email, password } = req.body;
-    console.log(username, email, password);
+    const {name, email, password } = req.body;
+    console.log(req.body);
  
     // -----SERVER SIDE VALIDATION ----------
     
-    if (!username || !email || !password) {
+    if (!name || !email || !password) {
         res.status(500)
           .json({
             errorMessage: 'Please enter username, email and password'
           });
         return;  
     }
-    const myRegex = new RegExp(/^[a-z0-9](?!.*?[^\na-z0-9]{2})[^\s@]+@[^\s@]+\.[^\s@]+[a-z0-9]$/);
-    if (!myRegex.test(email)) {
-        res.status(500).json({
-          errorMessage: 'Email format not correct'
-        });
-        return;  
-    }
-    const myPassRegex = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/);
-    if (!myPassRegex.test(password)) {
-      res.status(500).json({
-        errorMessage: 'Password needs to have 8 characters, a number and an Uppercase alphabet'
-      });
-      return;  
-    }
+    // const myRegex = new RegExp(/^[a-z0-9](?!.*?[^\na-z0-9]{2})[^\s@]+@[^\s@]+\.[^\s@]+[a-z0-9]$/);
+    // if (!myRegex.test(email)) {
+    //     res.status(500).json({
+    //       errorMessage: 'Email format not correct'
+    //     });
+    //     return;  
+    // }
+    // const myPassRegex = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/);
+    // if (!myPassRegex.test(password)) {
+    //   res.status(500).json({
+    //     errorMessage: 'Password needs to have 8 characters, a number and an Uppercase alphabet'
+    //   });
+    //   return;  
+    // }
     
 
     // NOTE: We have used the Sync methods here. 
     // creating a salt 
     let salt = bcrypt.genSaltSync(10);
     let hash = bcrypt.hashSync(password, salt);
-    userModel.create({name: username, email, passwordHash: hash})
+    console.log("all good till here")
+    userModel.create({name: name, email, password: hash})
       .then((user) => {
         // ensuring that we don't share the hash as well with the user
         user.passwordHash = "***";
@@ -64,6 +65,7 @@ router.post('/api/signup', (req, res) => {
 // will handle all POST requests to http:localhost:5005/api/signin
 router.post('/api/signin', (req, res) => {
     const {email, password } = req.body;
+    console.log(req.body)
 
     // -----SERVER SIDE VALIDATION ----------
     
@@ -72,26 +74,28 @@ router.post('/api/signin', (req, res) => {
             error: 'Please enter Username. email and password',
        })
       return;  
+      
     }
-    const myRegex = new RegExp(/^[a-z0-9](?!.*?[^\na-z0-9]{2})[^\s@]+@[^\s@]+\.[^\s@]+[a-z0-9]$/);
-    if (!myRegex.test(email)) {
-        res.status(500).json({
-            error: 'Email format not correct',
-        })
-        return;  
-    }
+    console.log("good till here");
+    // const myRegex = new RegExp(/^[a-z0-9](?!.*?[^\na-z0-9]{2})[^\s@]+@[^\s@]+\.[^\s@]+[a-z0-9]$/);
+    // if (!myRegex.test(email)) {
+    //     res.status(500).json({
+    //         error: 'Email format not correct',
+    //     })
+    //     return;  
+    // }
     
-  
+  console.log("good till here 2");
     // Find if the user exists in the database 
     userModel.findOne({email})
       .then((userData) => {
            //check if passwords match
-          bcrypt.compare(password, userData.passwordHash)
+          bcrypt.compare(password, userData.password)
             .then((doesItMatch) => {
                 //if it matches
                 if (doesItMatch) {
                   // req.session is the special object that is available to you
-                  userData.passwordHash = "***";
+                  userData.password = "***";
                   req.session.loggedInUser = userData;
                   res.status(200).json(userData)
                 }
@@ -120,6 +124,11 @@ router.post('/api/signin', (req, res) => {
       });
   
 });
+
+
+
+
+
  
 // will handle all POST requests to http:localhost:5005/api/logout
 router.post('/api/logout', (req, res) => {
