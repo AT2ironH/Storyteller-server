@@ -5,7 +5,7 @@
 const express = require ('express')
 const router = express.Router()
 
-let StoryModel = require('..models/Story.model')
+// let StoryModel = require('..models/Story.model')
 
 // Go to stories page
 // will handle all GET requests to http:localhost:5005/api/stories
@@ -40,7 +40,7 @@ router.get('/api/stories/:storyId', (req, res) => {
 })
 
 // Go to add story page
-// will handle all POST requests to http:localhost:5005/api/create_story
+// will handle all POST requests to http:localhost:5005/api/create
 router.post('./api/create', (req, res) => {
   const {image, title, description, location, creator, public} = req.body;
   console.log(req.body)
