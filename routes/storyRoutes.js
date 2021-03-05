@@ -5,7 +5,7 @@
 const express = require ('express')
 const router = express.Router()
 
-// let StoryModel = require('./models/Story.model.js')
+let StoryModel = require('../models/Story.model.js')
 
 // Go to stories page
 // will handle all GET requests to http:localhost:5005/api/stories
@@ -40,10 +40,13 @@ router.get('/api/stories/:storyId', (req, res) => {
 })
 
 // Go to add story page
-// will handle all POST requests to http:localhost:5005/api/create_story
-router.post('./api/create', (req, res) => {
-  const {image, title, description, location, creator, public} = req.body;
+// will handle all POST requests to http:localhost:5005/api/create
+router.post('/api/create', (req, res) => {
+  const {image, title, description, location, public} = req.body;
   console.log(req.body)
+  console.log("in story route",req.session.loggedInUser)
+
+  let creator = req.session.loggedInUser._id
 
     StoryModel.create({
       image: image,
@@ -58,6 +61,7 @@ router.post('./api/create', (req, res) => {
     })
 
     .catch((err) => {
+      console.log(err)
       res.status(500).json({
         error: 'Oops, it seems something went wrong!',
         message: err

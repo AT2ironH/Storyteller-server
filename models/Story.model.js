@@ -19,10 +19,10 @@ const storySchema = new mongoose.Schema({
     type: String,
   },
 
-  location: {
-    type: [],
-    required: true,
-  },
+  location: [{
+    type: Number,
+    // required: true,
+}],
 
   creator: {
     type : mongoose.Schema.Types.ObjectId,
@@ -30,6 +30,7 @@ const storySchema = new mongoose.Schema({
   },
 
   public: {
+    type: Boolean,
     enum: [true, false],
   }
 

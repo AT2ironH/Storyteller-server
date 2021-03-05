@@ -26,7 +26,7 @@ app.use(
       maxAge: 1000 * 60 * 60 * 24, // is in milliseconds.  expiring in 1 day
     },
     store: new MongoStore({
-      mongoUrl: process.env.MONGODB_URI || "mongodb://localhost/ReactTodos",
+      mongoUrl: process.env.MONGODB_URI || "mongodb://localhost/Storyteller",
       ttl: 60 * 60 * 24, // is in seconds. expiring in 1 day
     }),
   })
@@ -46,6 +46,9 @@ app.use("/", storyRoutes);
 
 const reviewRoutes = require("./routes/reviewRoutes.js");
 app.use("/", reviewRoutes);
+
+const cloudinaryRoutes = require('./routes/cloudinaryRoutes.js')
+app.use("/", cloudinaryRoutes);
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require('./error-handling')(app);

@@ -6,7 +6,7 @@ const bcrypt = require('bcryptjs');
 
 const userModel = require('../models/User.model');
 
-router.post('/api/signup', (req, res) => {
+router.post('/api/title', (req, res) => {
     const {name, email, password } = req.body;
     console.log(req.body);
  
@@ -97,6 +97,7 @@ router.post('/api/signin', (req, res) => {
                   // req.session is the special object that is available to you
                   userData.password = "***";
                   req.session.loggedInUser = userData;
+                  console.log(req.session.loggedInUser)
                   res.status(200).json(userData)
                 }
                 //if passwords do not match
