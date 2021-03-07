@@ -9,7 +9,7 @@ let StoryModel = require('../models/Story.model.js')
 
 // Go to stories page
 // will handle all GET requests to http:localhost:5005/api/stories
-router.get('/api/stories', (req, res) => {
+router.get('/api/allstories', (req, res) => {
   StoryModel.find()
    .then((stories) => {
       res.status(200).json(stories)
@@ -25,7 +25,7 @@ router.get('/api/stories', (req, res) => {
 
 // Go to single story page
 // will handle all GET requests to http:localhost:5005/api/stories/:storyId
-router.get('/api/stories/:storyId', (req, res) => {
+router.get('/api/allstories/:storyId', (req, res) => {
   StoryModel.findById(req.params.storyId)
   .then((response) => {
       res.status(200).json(response)

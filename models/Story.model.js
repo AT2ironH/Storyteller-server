@@ -20,7 +20,7 @@ const storySchema = new mongoose.Schema({
   },
 
   location: [{
-    type: Number,
+    type: String,
     // required: true,
 }],
 
