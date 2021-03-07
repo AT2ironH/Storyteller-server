@@ -72,7 +72,7 @@ router.post('/api/create', (req, res) => {
 // Delete story page
 // will handle all DELETE requests to http:localhost:5005/api/stories/storyId
 router.delete('/api/stories/:storyId', (req, res) => {
-  StoryModel.findByIdAndDelete(req. params.id) 
+  StoryModel.findByIdAndDelete(req.params.id) 
   .then((response) => {
     res.status(200).json(response)
   })
