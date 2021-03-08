@@ -27,10 +27,39 @@ router.get('/api/allstories', (req, res) => {
     })
 })
 
+// create like for story
+// will handle patch requests to http:localhost:5005/api/stories/:storyId
+// router.patch('/api/allstories/:storyId', (req, res) => {
+//   const {user} = req.params;
+ 
+
+//   if() {
+
+//   }
+
+//   StoryModel.findByIdAndUpdate(req.params.storyId)
+//     .then((response) => {
+//       res.status(200).json(response)
+
+//     })
+//     .catch((error) => {
+//       res.status(500).json({
+//         error: 'Oops, it seems your like is not added!',
+//         message: error
+//     })
+// })
+
+
+
+
+
+
+
 // Go to single story page
 // will handle all GET requests to http:localhost:5005/api/stories/:storyId
 router.get('/api/allstories/:storyId', (req, res) => {
   StoryModel.findById(req.params.storyId)
+  .populate('creator')
   .then((response) => {
       res.status(200).json(response)
   })
@@ -60,6 +89,9 @@ router.post('/api/create', (req, res) => {
       creator: creator,
       public: public,
     })
+
+    
+
     .then((response) => {
       res.status(200).json(response)
     })

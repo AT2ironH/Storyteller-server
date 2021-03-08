@@ -32,7 +32,12 @@ const storySchema = new mongoose.Schema({
   public: {
     type: Boolean,
     enum: [true, false],
-  }
+  },
+
+  like: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "user",
+  }]
 
 });
 

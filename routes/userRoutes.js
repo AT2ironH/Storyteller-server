@@ -16,24 +16,24 @@ router.get("/api/user/:userId", (req, res) => {
 })
 
 
-//saved stories
-router.get("/api/user/:singleStory", (req, res) => {
-  userModel
-    .findById(req.params.userId)
-    .then((response) => {
-      res.status(200).json(response);
-    })
-    .catch((err) => {
-      res.status(500).json({
-        error: "Something went wrong",
-        message: err,
-      });
-    });
-});
+// //saved stories
+// router.get("/api/user/:singleStory", (req, res) => {
+//   userModel
+//     .findById(req.params.userId)
+//     .then((response) => {
+//       res.status(200).json(response);
+//     })
+//     .catch((err) => {
+//       res.status(500).json({
+//         error: "Something went wrong",
+//         message: err,
+//       });
+//     });
+// });
 
 
 //edit profile
-router.patch("/user/:id", (req, res) => {
+router.patch("/api/user/:id", (req, res) => {
   let id = req.params.id;
   const { name, email, password } = req.body;
   userModel.findByIdAndUpdate(
