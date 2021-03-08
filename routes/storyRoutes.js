@@ -11,7 +11,11 @@ let StoryModel = require('../models/Story.model.js')
 // will handle all GET requests to http:localhost:5005/api/stories
 router.get('/api/allstories', (req, res) => {
   StoryModel.find()
+  //before sending data hide or remove password
+  .populate('creator')
    .then((stories) => {
+     console.log(stories)
+    
       res.status(200).json(stories)
     })
 

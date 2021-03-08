@@ -6,7 +6,8 @@ const bcrypt = require('bcryptjs');
 
 const userModel = require('../models/User.model');
 
-router.post('/api/title', (req, res) => {
+// sign ip
+router.post('/api/signup', (req, res) => {
     const {name, email, password } = req.body;
     console.log(req.body);
  
