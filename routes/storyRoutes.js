@@ -50,18 +50,22 @@ router.get('/api/allstories', (req, res) => {
 // })
 
 
-
-
-
-
-
 // Go to single story page
 // will handle all GET requests to http:localhost:5005/api/stories/:storyId
 router.get('/api/allstories/:storyId', (req, res) => {
   StoryModel.findById(req.params.storyId)
   .populate('creator')
   .then((response) => {
-      res.status(200).json(response)
+    let newResponse = JSON.parse(JSON.stringify(response))
+    console.log(newResponse.creator._id);
+    console.log(req.session.loggedInUser._id);
+    if (newResponse.creator._id == req.session.loggedInUser._id) {
+      newResponse.isOwner = true;
+    } else {
+      newResponse.isOwner = false;
+    }
+    
+      res.status(200).json(newResponse);
   })
 
   .catch((err) => {
