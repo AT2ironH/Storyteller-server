@@ -19,10 +19,10 @@ const storySchema = new mongoose.Schema({
     type: String,
   },
 
-  location: [{
-    type: String,
-    // required: true,
-}],
+  location: {
+    type: Object,
+    
+},
 
   creator: {
     type : mongoose.Schema.Types.ObjectId,
