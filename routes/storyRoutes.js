@@ -29,25 +29,30 @@ router.get('/api/allstories', (req, res) => {
 
 // create like for story
 // will handle patch requests to http:localhost:5005/api/stories/:storyId
-// router.patch('/api/allstories/:storyId', (req, res) => {
-//   const {user} = req.params;
+router.patch('/api/allstories/like/:storyId', (req, res) => {
+  console.log(req.session.loggedInUser)
+  const userId = req.session.loggedInUser._id
+  const storyId = req.params.storyId
+
+  console.log(userId)
+  console.log(storyId)
+
+  // do some magic to check if the id exists already in the like array. hint: check addToSet :wink:
+  // { $addToSet: { like: userId ...} }
  
+  StoryModel.findByIdAndUpdate(storyId, {$push: {like: userId}}, {new: true} )
+    .then((response) => {
+      res.status(200).json(response)
 
-//   if() {
-
-//   }
-
-//   StoryModel.findByIdAndUpdate(req.params.storyId)
-//     .then((response) => {
-//       res.status(200).json(response)
-
-//     })
-//     .catch((error) => {
-//       res.status(500).json({
-//         error: 'Oops, it seems your like is not added!',
-//         message: error
-//     })
-// })
+    })
+    .catch((error) => {
+      console.log(error)
+      res.status(500).json({
+        error: 'Oops, it seems your like is not added!',
+        message: error
+    })
+  })
+})
 
 
 // Go to single story page
