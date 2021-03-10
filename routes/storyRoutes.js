@@ -112,17 +112,16 @@ router.post('/api/create', (req, res) => {
 // Delete story page
 // will handle all DELETE requests to http:localhost:5005/api/stories/storyId
 router.delete('/api/stories/:storyId', (req, res) => {
-  StoryModel.findByIdAndDelete(req.params.id) 
-  .then((response) => {
-    res.status(200).json(response)
-  })
-  .catch((err) => {
-    res.status(500).json({
-      error: 'Oops, it seems something went wrong!',
-      message: err
+  StoryModel.findByIdAndDelete(req.params.storyId)
+    .then((response) => {
+      res.status(200).json(response);
     })
-    
-  })
+    .catch((err) => {
+      res.status(500).json({
+        error: "Oops, it seems something went wrong!",
+        message: err,
+      });
+    });
 })
 
 
