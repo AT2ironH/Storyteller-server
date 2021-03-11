@@ -27,6 +27,27 @@ router.get('/api/allstories', (req, res) => {
     })
 })
 
+// Go to stories page
+// will handle all GET requests to http:localhost:5005/api/stories
+router.get('/api/myStories', (req, res) => {
+  let userId = req.session.loggedInUser._id
+  StoryModel.find({creator: userId})
+ 
+  .populate('creator')
+   .then((stories) => {
+     console.log(stories);
+     //before sending data hide or remove password from creator
+     res.status(200).json(stories);
+   })
+
+    .catch ((err) => {
+      res.status(500).json({
+        error: 'Oops, it seems something went wrong!',
+        message: err
+      })
+    })
+})
+
 // create like for story
 // will handle patch requests to http:localhost:5005/api/stories/:storyId
 router.patch('/api/allstories/like/:storyId', (req, res) => {
@@ -40,7 +61,7 @@ router.patch('/api/allstories/like/:storyId', (req, res) => {
   // do some magic to check if the id exists already in the like array. hint: check addToSet :wink:
   // { $addToSet: { like: userId ...} }
  
-  StoryModel.findByIdAndUpdate(storyId, {$push: {like: userId}}, {new: true} )
+  StoryModel.findByIdAndUpdate(storyId, {$addToSet: {like: userId}}, {new: true} )
     .then((response) => {
       res.status(200).json(response)
 
